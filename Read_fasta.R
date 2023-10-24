@@ -8,7 +8,7 @@ library(ips)
 
 #### IMPORT MYCOCOSM ####
 # Importing Fasta:
-fasta_file <- "./../myco.rep.4000.fasta"
+fasta_file <- "myco.rep.4000.fasta"
 sequences <- readDNAStringSet(fasta_file)
 
 df <- NULL
@@ -34,7 +34,7 @@ df <- df %>% relocate(Genome,sub_sequence)
 df[493,]
 
 # read metadata
-mycocosm_genome_info <- read.table("./../metadata.csv", header = TRUE, sep = "\t")
+mycocosm_genome_info <- read.table("metadata.csv", header = TRUE, sep = "\t")
 df <- left_join(df, mycocosm_genome_info)
 table(df$phylum)
 table(df$class)
@@ -59,14 +59,14 @@ lineage <- paste(df$superkingdom, df$phylum, df$class, df$order, df$family, df$g
 
 
 #### IMPORT GOAT ####
-Goat <- readxl::read_xlsx("./../Goat.xlsx")
+Goat <- readxl::read_xlsx("Goat.xlsx")
 head(Goat)
 colnames(Goat)
 table(Goat$phylum)
 
 
 #### IMPORT NCBI SINGLE COPY ####
-fasta_file <- "./../ncbi.single.copy.fasta"
+fasta_file <- "ncbi.single.copy.fasta"
 sequences <- readDNAStringSet(fasta_file)
 
 df <- NULL
@@ -131,7 +131,7 @@ table(NCBI$phylum)
 
 
 # Export fasta
-header <- paste(df$species,df$Genome,"|",df$sub_sequence," taxid=",df$taxon_id, ";")
+# header <- paste(df$species,df$Genome,"|",df$sub_sequence," taxid=",df$taxon_id, ";")
 header <- paste0(df$Genome,"|",df$sub_sequence,"|",df$lineage , " taxid=",df$taxon_id, ";")
 Xfasta <- character(nrow(df) * 2)
 Xfasta[c(TRUE, FALSE)] <- paste0(">", header)
