@@ -8,7 +8,7 @@ header <- paste0(df$seqid,";","size=",df$size,"|",df$lineage , " taxid=",df$taxi
 Xfasta <- character(nrow(df) * 2)
 Xfasta[c(TRUE, FALSE)] <- paste0(">", header)
 Xfasta[c(FALSE, TRUE)] <- df$sequence
-writeLines(Xfasta, "ROD_v0.4.fasta")
+writeLines(Xfasta, "./../04_github/ROD/ROD_v0.4.fasta")
 getwd()
 
 
