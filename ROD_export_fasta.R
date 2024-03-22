@@ -14,8 +14,8 @@ getwd()
 
 #### 
 df <- ROD_v0.4
-
 genomes <- df$assembly_id %>% unique()
+
 
 for (genome in genomes){
   df_sub <- df %>% filter(assembly_id==genome) 

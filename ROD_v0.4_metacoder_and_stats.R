@@ -12,7 +12,6 @@ ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds"
 
 
 #### General Stats ####
-
 # Total number of rDNA copies
 sum(ROD_v0.4_genome_stats$rDNA_copies)
 sum(ROD_v0.4$size)
@@ -40,25 +39,25 @@ ROD_v0.4_genome_stats %>%  filter(rDNA_copies >= 1001) %>% #filter(rDNA_copies <
 
 ## Lenght pr. genome
 ## THIS IS NOW ADDED TO THE GENOME STATS DATA
-group_of_interest <- "assembly_id"
-df <- ROD_v0.4 %>%
-  #arrange(.data[[group_of_interest]], desc(size)) %>%
-  group_by(.data[[group_of_interest]]) %>%
-  reframe(rDNA_variants = n(),
-          length_min = min(length),
-          length_max= max(length),
-          total_size = sum(size),
-          size_max = max(size),
-          size_min = min(size),
-          size_second_max = ifelse(n_distinct(size) > 1, sort(size, decreasing = TRUE)[2], NA),
-          size_max_second_diff = size_max - ifelse(n_distinct(size) > 1, sort(size, decreasing = TRUE)[2], NA),
-          size_max_prop =  size_max / total_size,
-          size_second_prop =  size_second_max / total_size,
-          remaining_size = total_size - size_max - size_second_max,
-          all_sizes = paste(size, collapse = ";"),
-          all_lengths = paste(length, collapse = ";")) %>%
-ungroup()
-ROD_v0.4_genome_stats <- left_join(ROD_v0.4_genome_stats, df)
+# group_of_interest <- "assembly_id"
+# df <- ROD_v0.4 %>%
+#   #arrange(.data[[group_of_interest]], desc(size)) %>%
+#   group_by(.data[[group_of_interest]]) %>%
+#   reframe(rDNA_variants = n(),
+#           length_min = min(length),
+#           length_max= max(length),
+#           total_size = sum(size),
+#           size_max = max(size),
+#           size_min = min(size),
+#           size_second_max = ifelse(n_distinct(size) > 1, sort(size, decreasing = TRUE)[2], NA),
+#           size_max_second_diff = size_max - ifelse(n_distinct(size) > 1, sort(size, decreasing = TRUE)[2], NA),
+#           size_max_prop =  size_max / total_size,
+#           size_second_prop =  size_second_max / total_size,
+#           remaining_size = total_size - size_max - size_second_max,
+#           all_sizes = paste(size, collapse = ";"),
+#           all_lengths = paste(length, collapse = ";")) %>%
+# ungroup()
+# ROD_v0.4_genome_stats <- left_join(ROD_v0.4_genome_stats, df)
 # saveRDS(ROD_v0.4_genome_stats, "./../04_github/ROD/ROD_v0.4_genome_stats.rds")
 
 # Max copynumber in genome
@@ -66,8 +65,6 @@ ROD_v0.4_genome_stats <- left_join(ROD_v0.4_genome_stats, df)
 max(ROD_v0.4_genome_stats$length_max)
 min(ROD_v0.4_genome_stats$length_min)
 sum(ROD_v0.4_genome_stats$rDNA_copies>1)/length(ROD_v0.4_genome_stats$rDNA_copies)
-
-
 
 # Lenght pr. other groups
 group_of_interest <- "species"
@@ -182,7 +179,7 @@ ggsave("ridge_class.pdf")
 
 #### Metacoder ####
 
-ROD_metacoder <- parse_tax_data(ROD_v0.4, class_cols = 7:13 , named_by_rank = TRUE)
+# ROD_metacoder <- parse_tax_data(ROD_v0.4, class_cols = 7:13 , named_by_rank = TRUE)
 ROD_metacoder <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:10 , named_by_rank = TRUE)
 ROD_metacoder <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:8 , named_by_rank = TRUE)
 ROD_metacoder <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:7 , named_by_rank = TRUE)
@@ -208,8 +205,6 @@ pal[1:8]
 
 pal2 <- wes_palette(12, name = "Rushmore1", type = "continuous")
 pal2
-
-
 
 set.seed(666) # This makes the plot appear the same each time it is run 
 heat_tree(obj, 
