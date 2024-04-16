@@ -4,8 +4,8 @@ library(ggplot2)
 
 ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
 ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds") %>% as_tibble()
-write.table(ROD_v0.4_genome_stats, "ROD_v0.4_genome_stats.tab", quote = F, sep = "\t", row.names = F)
-write.table(ROD_v0.4, "ROD_v0.4.tab", quote = F, sep = "\t", row.names = F)
+# write.table(ROD_v0.4_genome_stats, "ROD_v0.4_genome_stats.tab", quote = F, sep = "\t", row.names = F)
+# write.table(ROD_v0.4, "ROD_v0.4.tab", quote = F, sep = "\t", row.names = F)
 
 
 # Criteria: the representative need to be "more common" than the other operons
@@ -32,3 +32,4 @@ non_max_size_tibble <- anti_join(ROD_v0.4, max_size_tibble_unique, by = c("assem
 write.table(similar_size, "./../08_rexRODney_manually_curated/for_manuall_curation.tab", quote = F, sep = "\t", row.names = F)
 
 ROD_v0.4_genome_stats %>% filter(assembly_id == "GCA_001541825") %>% .$max_distance
+

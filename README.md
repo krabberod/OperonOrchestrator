@@ -1,12 +1,12 @@
 # OperonOrchestrator
-This is code for handling sequences for the ribosomal operon database. Sequence input is from mycocosm and NCBI.
+This is code for handling sequences for the ribosomal operon database. Sequence input is from Mycocosm and NCBI.
 
 Genomes in NCBI can be found: 
 ```
 rsync -t -v rsync://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/assembly_summary_genbank.txt .
 ```
 
-Overview as of Oct. 16 2023
+Overview as of Oct. 16, 2023
 
 ```
 ##  See ftp://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt for a description of the columns in this file.
@@ -25,6 +25,6 @@ Overview as of Oct. 16 2023
 ```
 
 TODO: Gather stats from Vsearch aligning on Saga for each genome
-TODO: Select the reference seuence
+TODO: Select the reference sequences.
 - should be longer than 4000 bp.
-- If there are several copies it should be most similar to the others
+- If there are several copies they should be most similar to the others

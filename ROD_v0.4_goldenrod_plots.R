@@ -86,5 +86,5 @@ for (division in divisions) {
   plot_list[[subdivision]] <- p
 }
 
-plot_list[[4]]
+plot_list[[1]]
 

@@ -24,6 +24,7 @@ head(ROD_v0.4$assembly_id)
 
 
 
+### GENETIC DISTANCE PR. ACCESSION
 # Read alignments: 
 all_alignments <- sort(list.files("/Users/anderkkr/Dropbox/Projects/00_Master_projects/01_Active_Projects/02_OMG/17_OperonOrchestrator/07_goldenROD_alignment/02_pr_genome/01_mafft/", full.names = TRUE))
 

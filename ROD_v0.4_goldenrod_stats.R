@@ -3,26 +3,28 @@ library(wesanderson)
 library(ggplot2)
 
 ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
-colnames(ROD_v0.4)
-ROD_v0.4_genome_stats <- ROD_v0.4 %>% select(-c(seqid, length, size, sequence)) %>% unique() %>% as_tibble()
-sum(ROD_v0.4$size)
+ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds") %>% as_tibble()
 
-####
+ROD_v0.4_genome_stats$median_distance[is.na(ROD_v0.4_genome_stats$median_distance)] <- 0
+ROD_v0.4_genome_stats$mean_distance[is.na(ROD_v0.4_genome_stats$mean_distance)] <- 0
 
-summarized_data <- ROD_v0.4 %>% 
-  group_by(assembly_id) %>%
-  summarise(sum.size = sum(size), .groups = 'drop')
-
-ROD_v0.4_genome_stats <- left_join(ROD_v0.4_genome_stats,summarized_data) #%>% select(supergroup, division,.data[[split.factor]],sum.size) %>% unique()
 df <- ROD_v0.4_genome_stats
-#
-division_counts <- ROD_v0.4_genome_stats %>%
-  group_by(division) %>%
-  summarise(count = n()) %>%
+
+df_data <- ROD_v0.4_genome_stats %>%
+  group_by(supergroup,division,subdivision,class,order,family,genus,species) %>%
+  summarise(genomes = n(),  
+            max.rDNA_copies = max(rDNA_copies), 
+            max.rDNA_variants = max(rDNA_variants),
+            avg.distance = mean(mean_distance),
+            min.length = min(length_min),
+            max.length = max(length_max), mean.length = mean(length_mean)
+            ) %>%
   ungroup()
+write.table(df_data, "01_ROD_results/Stat_pr_species.tab", quote = F, sep = "\t", row.names = F)
+
 
 # Merge the counts back with the original data frame
-df_with_counts <- merge(df, division_counts, by = "division") %>% as_tibble()
+df_with_counts <- merge(ROD_v0.4_genome_stats, division_counts, by = "division") %>% as_tibble()
 
 # Create a new label combining division name and count
 df_with_counts$division_label <- paste(df_with_counts$division, "\n(n=", df_with_counts$count, ")", sep="")
@@ -43,6 +45,12 @@ ggsave("01_ROD_results/ROD_operons_pr.genomes_overview.pdf")
 
 ####
 
+split.factor="assembly_id"
+summarized_data <- ROD_v0.4%>% 
+  group_by(.data[[split.factor]]) %>%
+  summarise(sum.size = sum(size), .groups = 'drop')
+
+
 #### Opisthokonta
 #### FUNGI ####
 
@@ -51,7 +59,7 @@ fungi_stats <- ROD_v0.4_genome_stats %>% filter(division == "Fungi")
 sum(fungi$size)
 
 fungi %>% select(supergroup, assembly_id)
-df <- left_join(fungi,summarized_data) %>% select(assembly_id,division,subdivision,class,sum.size) %>% unique()
+df <- left_join(fungi,summarized_data) %>% select(division,subdivision,class,sum.size) %>% unique()
 
 # Create a summary data frame with counts for each class
 class_counts <- ROD_v0.4 %>% filter(division == "Fungi")  %>% 
@@ -183,7 +191,7 @@ df_with_counts <- merge(df, order_counts, by = "order")
 df_with_counts$order_label <- paste(df_with_counts$order, " (n=", df_with_counts$count, ")", sep="")
 
 # my_colors <- wes_palette("GrandBudapest1", n = length(unique(df$division)), type = "continuous")
-ggplot(df_with_counts, aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
+ggplot(df_with_counts %>% filter(count > 1), aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
   geom_boxplot(fill="goldenrod") +  
   facet_wrap(~ class, scales = "free", nrow = 3) + # Group by supergroup in separate panels
   labs(x = "", y = "Operon copies pr. genome") +
@@ -251,9 +259,9 @@ df_with_counts <- merge(df, order_counts, by = "order")
 df_with_counts$order_label <- paste(df_with_counts$order, " (n=", df_with_counts$count, ")", sep="")
 
 # my_colors <- wes_palette("GrandBudapest1", n = length(unique(df$division)), type = "continuous")
-ggplot(df_with_counts, aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
+ggplot(df_with_counts %>% filter(count > 2), aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
   geom_boxplot(fill="goldenrod") +  
-  facet_wrap(~ class, scales = "free", nrow = 3) + # Group by supergroup in separate panels
+  #xfacet_wrap(~ class, scales = "free", nrow = 3) + # Group by supergroup in separate panels
   labs(y = "", x = "Operon copies pr. genome") +
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size=6), # Adjusting x labels for readability
@@ -291,9 +299,9 @@ df_with_counts <- merge(df, order_counts, by = "order")
 df_with_counts$order_label <- paste(df_with_counts$order, " (n=", df_with_counts$count, ")", sep="")
 
 # my_colors <- wes_palette("GrandBudapest1", n = length(unique(df$division)), type = "continuous")
-ggplot(df_with_counts, aes(y = reorder(order_label, -count), x = sum.size, fill = order)) + 
+ggplot(df_with_counts , aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
   geom_boxplot(fill="goldenrod") +  
-  facet_wrap(~ class, scales = "free", nrow = 3) + # Group by supergroup in separate panels
+  # facet_wrap(~ class, scales = "free", nrow = 3) + # Group by supergroup in separate panels
   labs(x = "", y = "Operon copies pr. genome") +
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size=6), # Adjusting x labels for readability
@@ -325,9 +333,9 @@ df_with_counts <- merge(df, order_counts, by = "order")
 df_with_counts$order_label <- paste(df_with_counts$order, " (n=", df_with_counts$count, ")", sep="")
 
 # my_colors <- wes_palette("GrandBudapest1", n = length(unique(df$division)), type = "continuous")
-ggplot(df_with_counts, aes(y = reorder(order_label, -count), x = sum.size, fill = order)) + 
+ggplot(df_with_counts, aes(y = reorder(order_label, count), x = sum.size, fill = order)) + 
   geom_boxplot(fill="goldenrod") +  
-  facet_wrap(~ class, scales = "free", nrow = 2) + # Group by supergroup in separate panels
+  # facet_wrap(~ class, scales = "free", nrow = 2) + # Group by supergroup in separate panels
   labs(x = "", y = "Operon copies pr. genome") +
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size=4), # Adjusting x labels for readability
