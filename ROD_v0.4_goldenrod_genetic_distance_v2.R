@@ -38,7 +38,7 @@ basename(all_alignments[2]) %>% str_remove(".mafft.fasta") %>% str_remove("ROD_v
 
 alignment_ape <- as.DNAbin(alignment)
 distances <- dist.dna(alignment_ape, model = "raw", as.matrix = T)
-# If idetity is wanted:
+# If idetity is wanted:ge
 distances <- 1 - as.matrix(distances)
 weighted_distance <- calculate_weighted_distances(distances)
 sd(distances)
