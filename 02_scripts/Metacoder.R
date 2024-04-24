@@ -5,19 +5,19 @@ library(ggplot2)
 library(metacoder)
 
 # Read the current version: 
-# ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
-ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds") %>% as_tibble()
-ROD_v0.4_genome_stats$mean_distance
-ROD_v0.4_genome_stats$median_distance[is.na(ROD_v0.4_genome_stats$median_distance)] <- 0
+# ROD_v1.1 <- read_rds("./../04_github/ROD/ROD_v1.1.rds") %>% as_tibble()
+ROD_v1.1_genome_stats <- read_rds("./../04_github/ROD/ROD_v1.1_genome_stats.rds") %>% as_tibble()
+ROD_v1.1_genome_stats$mean_distance
+ROD_v1.1_genome_stats$median_distance[is.na(ROD_v1.1_genome_stats$median_distance)] <- 0
 
 
 #### Metacoder ####
-# ROD_metacoder <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:10 , named_by_rank = TRUE)
-# ROD_metacoder_family <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:9 , named_by_rank = TRUE)
-# ROD_metacoder_order <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:8 , named_by_rank = TRUE)
-# ROD_metacoder_class <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:7 , named_by_rank = TRUE)
-ROD_metacoder_subdivision <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:6 , named_by_rank = TRUE)
-# ROD_metacoder_division <- parse_tax_data(ROD_v0.4_genome_stats, class_cols = 3:5 , named_by_rank = TRUE)
+# ROD_metacoder <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:10 , named_by_rank = TRUE)
+# ROD_metacoder_family <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:9 , named_by_rank = TRUE)
+# ROD_metacoder_order <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:8 , named_by_rank = TRUE)
+# ROD_metacoder_class <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:7 , named_by_rank = TRUE)
+ROD_metacoder_subdivision <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:6 , named_by_rank = TRUE)
+# ROD_metacoder_division <- parse_tax_data(ROD_v1.1_genome_stats, class_cols = 3:5 , named_by_rank = TRUE)
 
 obj <- ROD_metacoder_subdivision
 obj$data$rDNA_copies <- calc_taxon_abund(obj, "tax_data", cols = "rDNA_copies")
@@ -78,5 +78,5 @@ heat_tree(obj,
           # Setting layot to "reingold-tilford" and removing the initial layout results in a cricel
           layout ="reingold-tilford")
           #initial_layout = "reingold-tilford") # The layout algorithm that initializes node locations
-ggsave("metacoder_2_subdivision_GenDist_v5.pdf") 
+# ggsave("metacoder_2_subdivision_GenDist_v5.pdf") 
 

@@ -1,13 +1,15 @@
 library(tidyverse)
-ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
+# ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
+ROD <- read_rds("./../04_github/ROD/ROD_v1.0_operon_variants.rds") %>% as_tibble()
  
 ### EXPORT FASTA FULL ROD
-df <- ROD_v0.4 #%>% filter(genus=="Neurospora")
+df <- ROD #%>% filter(genus=="Neurospora")
+df <- max_size_tibble_unique
 header <- paste0(df$assembly_id,"|",df$seqid,";size=",df$size ,"|",df$lineage , " taxid=",df$taxid, ";")
 Xfasta <- character(nrow(df) * 2)
 Xfasta[c(TRUE, FALSE)] <- paste0(">", header)
 Xfasta[c(FALSE, TRUE)] <- df$sequence
-writeLines(Xfasta, "./../04_github/ROD/ROD_v0.4.fasta")
+writeLines(Xfasta, "./../04_github/ROD/ROD_v1.0_reference_sequences.fasta")
 getwd()
 
 

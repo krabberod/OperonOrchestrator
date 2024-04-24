@@ -21,4 +21,3 @@ wes_palette("Royal1")
 wes_palette("Royal2")
 wes_palette("Rushmore1")
 wes_palette("Zissou1")
-

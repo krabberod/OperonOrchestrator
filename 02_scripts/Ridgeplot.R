@@ -7,12 +7,13 @@ library(metacoder)
 library(ggridges)
 
 # Read the current version: 
-ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
-ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds") %>% as_tibble()
+# ROD_v1.1 <- read_rds("./../04_github/ROD/ROD_v1.1.rds") %>% as_tibble()
+# ROD_v1.1_genome_stats <- read_rds("./../04_github/ROD/ROD_v1.1_genome_stats.rds") %>% as_tibble()
+
 
 
 group_of_interest <- "subdivision"
-df <- ROD_v0.4 %>% 
+df <- ROD_v1.1 %>% 
   #arrange(.data[[group_of_interest]], desc(size)) %>%
   group_by(.data[[group_of_interest]]) %>%
   reframe(rDNA_variants = n(),
@@ -94,5 +95,5 @@ single_entries_with_counts <- lengths_separated_with_counts %>%
 p + geom_point(data = single_entries_with_counts, aes(x = all_lengths, y = lineage_with_count), color = "black", size = 2)
 
 
-ggsave("01_ROD_results/ridge_subdiv.pdf")
+# ggsave("01_ROD_results/ridge_subdiv_v1.1.pdf")
 
