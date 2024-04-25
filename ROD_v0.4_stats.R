@@ -6,7 +6,7 @@ library(metacoder)
 library(ape)
 library(ggridges)
 
-# Read the current version: 
+# Read the current version:
 ROD_v0.4 <- read_rds("./../04_github/ROD/ROD_v0.4.rds") %>% as_tibble()
 ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds") %>% as_tibble()
 
@@ -16,12 +16,13 @@ ROD_v0.4_genome_stats <- read_rds("./../04_github/ROD/ROD_v0.4_genome_stats.rds"
 sum(ROD_v0.4_genome_stats$rDNA_copies)
 sum(ROD_v0.4$size)
 
+
 # Counting copies: 
 # Pr.genome: 
 # copy pr. genome, 1
 ROD_v0.4_genome_stats %>% filter(rDNA_copies == 1) %>% 
   summarize(total_rDNA_copies = sum(rDNA_copies),average_rDNA_copies = mean(rDNA_copies))
-
+  
 # copy pr. genome, 2-10
 ROD_v0.4_genome_stats %>% filter(rDNA_copies >= 2) %>% filter(rDNA_copies <= 10) %>% 
   summarize(total_rDNA_copies = sum(rDNA_copies),average_rDNA_copies = mean(rDNA_copies))
