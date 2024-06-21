@@ -48,11 +48,8 @@ set.seed(666) # This makes the plot appear the same each time it is run
 heat_tree(obj, 
           node_label = taxon_names,
           edge_label = obj$n_obs(),
-          
           # node_size = obj$data$rDNA_variants$rDNA_variants/obj$n_obs(), 
           node_color = obj$data$rDNA_variants$rDNA_variants/obj$n_obs(), 
-          
-          
           node_size_axis_label = "rDNA variants (size)",
           # node_color = obj$data$mean_distance$mean_distance/obj$n_obs(),
           edge_color = obj$data$mean_distance$mean_distance/obj$n_obs(),
@@ -60,13 +57,8 @@ heat_tree(obj,
           edge_size = obj$n_obs(),
           edge_size_axis_label = "number of genomes",
           # edge_color = obj$data$rDNA_copies$rDNA_copies/obj$n_obs(),
-          
-          
           # node_color = obj$data$rDNA_copies$rDNA_copies/obj$n_obs(),
           node_size = obj$data$rDNA_copies$rDNA_copies/obj$n_obs(),
-          
-          
-          
           edge_color_axis_label = "rDNA copies (col)",
           node_color_range = c(pal[1],pal[3]),
           edge_color_range = c(pal3[2],pal2[4]), 

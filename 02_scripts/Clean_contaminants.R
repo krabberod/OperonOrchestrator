@@ -1,6 +1,6 @@
 library(tidyverse)
 library(Biostrings)
-# Fix missing taxnomy in Goat: 
+# missing taxnomy in Goat: 
 library(taxonomizr)
 library(tidyverse)
 library(readxl)
