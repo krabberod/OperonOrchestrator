@@ -22,5 +22,4 @@ length_extremes <- ROD_v0.4_genome_stats %>%
 
 
 ROD_v0.4_genome_stats <- left_join(ROD_v0.4_genome_stats,length_extremes)
-
 ROD_v0.4_genome_stats$length_mean
